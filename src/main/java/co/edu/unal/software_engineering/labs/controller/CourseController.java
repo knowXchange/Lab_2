@@ -19,6 +19,9 @@ public class CourseController{
         this.courseService = courseService;
     }
 
+    //-----------------------------------------------------------------------------------------
+    //Original 
+    
     @PostMapping( value = {"/profesor/cursos"} )
     public ResponseEntity<Void> createCourse( @RequestBody CoursePOJO coursePojo ){
         Course course = courseService.mapperCourseEntity( coursePojo );
@@ -28,5 +31,22 @@ public class CourseController{
         courseService.save( course );
         return new ResponseEntity<>( HttpStatus.CREATED );
     }
+    
+    //----------------------------------------------------------------------------------
+    
+    
+    //---------------------------------------------------------
+    //Nuevo
+    
+    @PostMapping( value = {"/profesor/crear-curso"} )
+    public ResponseEntity<Void> createCourseTeacher( @RequestBody CoursePOJO coursePojo ){
+    	boolean creado = courseService.createCourseTeacherService( coursePojo );
+    	
+        if(creado){return new ResponseEntity<>( HttpStatus.CREATED );} 
+        else { return new ResponseEntity<>( HttpStatus.BAD_REQUEST ); }
+        
+    }  
+    //---------------------------------------------------------------------------
+  
 
 }

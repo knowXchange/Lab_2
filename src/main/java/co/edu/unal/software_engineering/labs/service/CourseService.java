@@ -34,4 +34,18 @@ public class CourseService{
         course.setDurationHours( coursePojo.getDurationHours( ) );
         return course;
     }
+    
+    
+    
+
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      public boolean createCourseTeacherService ( CoursePOJO coursePojo ) {
+          Course course = mapperCourseEntity( coursePojo );
+          if( !isRightCourse( course ) ){
+              return false;
+          }
+          save( course );
+          return true;
+      }
+     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 }
