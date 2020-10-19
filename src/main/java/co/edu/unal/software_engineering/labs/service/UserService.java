@@ -1,8 +1,14 @@
 package co.edu.unal.software_engineering.labs.service;
 
+import co.edu.unal.software_engineering.labs.model.Association;
+import co.edu.unal.software_engineering.labs.model.Course;
 import co.edu.unal.software_engineering.labs.model.User;
 import co.edu.unal.software_engineering.labs.pojo.RegisterUserPOJO;
+import co.edu.unal.software_engineering.labs.repository.AssociationRepository;
 import co.edu.unal.software_engineering.labs.repository.UserRepository;
+
+import java.util.ArrayList;
+
 import org.springframework.stereotype.Service;
 
 
@@ -10,9 +16,12 @@ import org.springframework.stereotype.Service;
 public class UserService{
 
     private final UserRepository userRepository;
+    
+    private final AssociationRepository associationRepository;
 
-    public UserService( UserRepository userRepository ){
+    public UserService( UserRepository userRepository , AssociationRepository associationRepository){
         this.userRepository = userRepository;
+        this.associationRepository = associationRepository;
     }
 
 
@@ -36,4 +45,16 @@ public class UserService{
         return correctness;
     }
 
+    public ArrayList<Course> getCoursesByRole(Integer roleId, User user){
+    	ArrayList<Course> coursesObtained = new ArrayList<Course>();
+        int userId = user.getId();
+        ArrayList<Association> associations = (ArrayList<Association>)this.associationRepository.findAll();
+    	for(int i = 0; i<associations.size();i++) {
+    		Association associationObtained = associations.get(i);
+    		if(associationObtained.getRole().getId().equals(roleId) && associationObtained.getUser().getId().equals(userId)) {
+    			coursesObtained.add(associationObtained.getCourse());
+    		}
+    	}
+    	return coursesObtained;
+    }
 }

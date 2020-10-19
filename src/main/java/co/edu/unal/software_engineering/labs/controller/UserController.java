@@ -62,5 +62,25 @@ public class UserController{
         userService.save( existingUser );
         return new ResponseEntity<>( HttpStatus.CREATED );
     }
+    
+    @GetMapping( value = { "/registro/consultar-cursos-como-estudiante"})
+    public Object getCoursesLikeStudent(){
+        Role role = new Role();
+        role.setId(1);
+        role.setRoleName("Estudiante");
+        String username = SecurityContextHolder.getContext( ).getAuthentication( ).getName( );
+        User existingUser = userService.findByUsername( username );
+        return userService.getCoursesByRole(1, existingUser);
+    }
+    
+    @GetMapping( value = { "/registro/consultar-cursos-como-profesor"})
+    public Object getCoursesLikeTeacher(){
+        Role role = new Role();
+        role.setId(2);
+        role.setRoleName("Profesor");
+        String username = SecurityContextHolder.getContext( ).getAuthentication( ).getName( );
+        User existingUser = userService.findByUsername( username );
+        return userService.getCoursesByRole(2, existingUser);
+    }
 
 }
