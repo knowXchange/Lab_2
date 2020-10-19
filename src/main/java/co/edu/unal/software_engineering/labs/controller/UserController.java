@@ -83,4 +83,11 @@ public class UserController{
         return userService.getCoursesByRole(2, existingUser);
     }
 
+    
+    @GetMapping( value = { "/registro/consultar-roles-asociados"})
+    public Object getAssociatedRoles(){
+        String username = SecurityContextHolder.getContext( ).getAuthentication( ).getName( );
+        User existingUser = userService.findByUsername( username );
+        return existingUser.getRoles();
+    }
 }
